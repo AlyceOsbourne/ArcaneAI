@@ -10,3 +10,4 @@ This is an Utility AI plugin for Godot 4.3+
 ## Note
 This is a WIP plugin, and still needs to go through more thorough testing.
 
+To install, download the zip, and unzip into `res://addons/ArcaneAI`, and then enable the plugin in the project settings.
