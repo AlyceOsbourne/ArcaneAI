@@ -26,9 +26,8 @@ var evaluation: String:
         parent.trigger_update.emit.call_deferred(self)
 
 func _ready() -> void:
-    code_edit.text_changed.connect(func(): parent.trigger_update.emit.call_deferred(self))
-    code_edit.focus_entered.connect(func(): parent.set_selected(self))
-    parent.trigger_update.emit.call_deferred(self)
+    code_edit.text_changed.connect(func(): parent.trigger_update.emit.call_deferred(self), CONNECT_DEFERRED)
+    code_edit.focus_entered.connect(func(): parent.set_selected(self), CONNECT_DEFERRED)
 
 func save_keys():
     return super.save_keys() + ["evaluation", "curve"]

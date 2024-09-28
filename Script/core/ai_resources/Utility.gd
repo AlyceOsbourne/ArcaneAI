@@ -2,6 +2,7 @@ class_name Utility
 extends Evaluate
 
 var name: String
+
 @export var expression: String
 @export var curve: Curve
 

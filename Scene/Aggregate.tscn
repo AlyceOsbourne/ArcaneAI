@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://wswpreix4ffr"]
 
-[ext_resource type="Script" path="res://addons/aigraph/Script/graph_nodes/aggregate.gd" id="1_cl6ec"]
+[ext_resource type="Script" path="res://addons/ArcaneAI/Script/graph_nodes/aggregate.gd" id="1_cl6ec"]
 
 [node name="Aggregate" type="GraphNode" node_paths=PackedStringArray("options_button")]
 custom_minimum_size = Vector2(200, 100)

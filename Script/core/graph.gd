@@ -50,7 +50,8 @@ func _ready() -> void:
         CONNECT_DEFERRED
     )
 
-    GraphUtils.setup_picker(self)
+
+
 
 func _create_node_button(text, node_type, place_func):
     var butt = Button.new()

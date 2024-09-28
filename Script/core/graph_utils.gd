@@ -1,10 +1,10 @@
 @tool
 class_name GraphUtils
 
-const _AI = preload("res://addons/aigraph/Scene/AI.tscn")
-const Action = preload("res://addons/aigraph/Scene/Action.tscn")
-const Aggregate = preload("res://addons/aigraph/Scene/Aggregate.tscn")
-const Utility = preload("res://addons/aigraph/Scene/Utility.tscn")
+const _AI = preload("res://addons/ArcaneAI/Scene/AI.tscn")
+const Action = preload("res://addons/ArcaneAI/Scene/Action.tscn")
+const Aggregate = preload("res://addons/ArcaneAI/Scene/Aggregate.tscn")
+const Utility = preload("res://addons/ArcaneAI/Scene/Utility.tscn")
 
 static var inspector := InspectAISystem.new()
 static var picker := EditorResourcePicker.new()
@@ -25,7 +25,10 @@ static func setup_picker(graph: AIGraph):
             b.clip_text = false
     picker.resource_changed.connect(f, CONNECT_DEFERRED)
     picker.resource_selected.connect(f, CONNECT_DEFERRED)
-    menu.add_child.call_deferred(picker)
+    if picker.get_parent() != null:
+        picker.reparent.call_deferred(menu)
+    else:
+        menu.add_child.call_deferred(picker)
     menu.size_flags_horizontal = graph.SIZE_EXPAND_FILL
 
 static func _update_activations(graph: AIGraph):

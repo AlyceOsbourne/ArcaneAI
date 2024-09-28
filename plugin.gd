@@ -4,8 +4,10 @@ extends EditorPlugin
 var instance: AIGraph:
     get:
         if instance == null:
-            instance = load("res://addons/aigraph/Scene/Graph.tscn").instantiate()
+            instance = load("res://addons/ArcaneAI/Scene/Graph.tscn").instantiate()
+            GraphUtils.setup_picker(instance)
             EditorInterface.get_editor_main_screen().add_child(instance)
+
             _make_visible(false)
         return instance
 
@@ -27,6 +29,6 @@ func _get_plugin_icon():
 
 func _handles(object: Object) -> bool:
     if object is AI:
-        instance.picker.resource_changed.emit(object)
+        GraphUtils.picker.resource_changed.emit(object)
         return true
     return false

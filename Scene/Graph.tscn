@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dtbj8holgmym6"]
 
-[ext_resource type="Script" path="res://addons/aigraph/Script/core/graph.gd" id="1_iqvr5"]
-[ext_resource type="PackedScene" uid="uid://bc4kxcb78soww" path="res://addons/aigraph/Scene/AI.tscn" id="2_qkwrm"]
+[ext_resource type="Script" path="res://addons/ArcaneAI/Script/core/graph.gd" id="1_iqvr5"]
+[ext_resource type="PackedScene" uid="uid://bc4kxcb78soww" path="res://addons/ArcaneAI/Scene/AI.tscn" id="2_qkwrm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jhrna"]
 
