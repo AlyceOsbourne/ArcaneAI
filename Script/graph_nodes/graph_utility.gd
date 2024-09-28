@@ -1,5 +1,5 @@
 @tool
-class_name AIGraphUtility
+class_name GraphUtility
 extends AIGraphNode
 
 @export var code_edit: CodeEdit:

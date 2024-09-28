@@ -1,5 +1,5 @@
 @tool
-class_name AIGraphAggregate
+class_name GraphAggregate
 extends AIGraphNode
 
 enum Aggregation {

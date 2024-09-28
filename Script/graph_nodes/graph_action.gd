@@ -1,5 +1,5 @@
 @tool
-class_name AIGraphAction
+class_name GraphAction
 extends AIGraphNode
 
 @export var line_edit: LineEdit

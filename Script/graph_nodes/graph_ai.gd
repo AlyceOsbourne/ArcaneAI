@@ -1,5 +1,5 @@
 @tool
-class_name AIGraph_AI
+class_name Graph
 extends AIGraphNode
 
 @export var button: Button

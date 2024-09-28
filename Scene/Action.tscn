@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dp6uytw1c181"]
 
-[ext_resource type="Script" path="res://addons/ArcaneAI/Script/graph_nodes/action.gd" id="1_kpvi0"]
+[ext_resource type="Script" path="res://addons/ArcaneAI/Script/graph_nodes/graph_action.gd" id="1_kpvi0"]
 
 [node name="Action" type="GraphNode" node_paths=PackedStringArray("line_edit")]
 custom_minimum_size = Vector2(200, 100)

@@ -133,14 +133,14 @@ func _place_adjacent(node):
 
 func _place_below_actions(node):
     var lowest = Vector2.ZERO
-    var actions = get_children().filter(func(x): return x is AIGraphAction)
+    var actions = get_children().filter(func(x): return x is GraphAction)
 
     if actions.is_empty() or actions.size() == 1:
         set_selected(get_node("AI"))
         _place_adjacent(node)
         return
 
-    for action: AIGraphAction in actions:
+    for action: GraphAction in actions:
         var pos = action.position_offset
         if pos.y > lowest.y:
             lowest = pos
