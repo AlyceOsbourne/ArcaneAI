@@ -30,7 +30,7 @@ func _ready() -> void:
     var menu = get_menu_hbox()
 
     for button_options in [
-        ["Add Action", GraphUtils.Action, _place_below_actions],
+        ["Add Action", GraphUtils.Action, _place_below_all],
         ["Add Aggregate", GraphUtils.Aggregate, _place_adjacent],
         ["Add Utility", GraphUtils.Utility, _place_adjacent]
     ]:
@@ -49,9 +49,6 @@ func _ready() -> void:
             p.propagate_call("_update", [x]),
         CONNECT_DEFERRED
     )
-
-
-
 
 func _create_node_button(text, node_type, place_func):
     var butt = Button.new()
@@ -126,12 +123,41 @@ func _handle_disconnect_node(f, fp, t, tp):
         disconnect_node(f, fp, t, tp)
     trigger_update.emit.call_deferred(self)
 
+#func _place_adjacent(node):
+    #var _selected = selected_node
+    #if _selected:
+        #node.position_offset = _selected.position_offset + Vector2(300, 0)
+
 func _place_adjacent(node):
     var _selected = selected_node
-    if _selected:
-        node.position_offset = _selected.position_offset + Vector2(300, 0)
+    if not _selected:
+        return
+    var proposed_position = _selected.position_offset + Vector2(300, 0)
+    var spacing = node.size.y + 100
+    node.position_offset = _get_available_position(proposed_position, spacing, node)
 
-func _place_below_actions(node):
+func _get_available_position(position, spacing, node):
+    var offset_y = 0
+    while true:
+        var test_position = position + Vector2(0, offset_y)
+        if not _is_position_occupied(test_position, node):
+            return test_position
+        offset_y += spacing
+
+func _is_position_occupied(position, node):
+    var node_size = node.get_size() if node.is_inside_tree() else Vector2(150, 100)  # Approximate size
+    var rect1 = Rect2(position, node_size)
+    for child in get_children():
+        if child == node or not (child is AIGraphNode):
+            continue
+        var child_pos = child.position_offset
+        var child_size = child.get_size() if child.is_inside_tree() else Vector2(150, 100)
+        var rect2 = Rect2(child_pos, child_size)
+        if rect1.intersects(rect2):
+            return true
+    return false
+
+func _place_below_all(node):
     var lowest = Vector2.ZERO
     var actions = get_children().filter(func(x): return x is GraphAction)
 
@@ -146,6 +172,7 @@ func _place_below_actions(node):
             lowest = pos
 
     node.position_offset = lowest + Vector2(0, 200)
+
 
 func _update(by):
     if by == self:
