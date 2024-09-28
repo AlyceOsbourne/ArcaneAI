@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc4kxcb78soww"]
+
+[ext_resource type="Script" path="res://addons/aigraph/Script/graph_nodes/ai_node.gd" id="1_de3w5"]
+
+[node name="AI" type="GraphNode" node_paths=PackedStringArray("button")]
+custom_minimum_size = Vector2(200, 100)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Represents your Agent. "
+title = "AI"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(0.6, 0.317647, 0.847059, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_de3w5")
+button = NodePath("Control")
+
+[node name="Control" type="Button" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Test"
+flat = true

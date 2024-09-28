@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp6uytw1c181"]
+
+[ext_resource type="Script" path="res://addons/aigraph/Script/graph_nodes/action.gd" id="1_kpvi0"]
+
+[node name="Action" type="GraphNode" node_paths=PackedStringArray("line_edit")]
+custom_minimum_size = Vector2(200, 100)
+offset_right = 103.0
+offset_bottom = 86.0
+size_flags_horizontal = 0
+title = "Action"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(0.6, 0.317647, 0.847059, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 1
+slot/0/right_color = Color(0.6, 0.317647, 0.847059, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_kpvi0")
+line_edit = NodePath("LineEdit")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Action"
+alignment = 1
+expand_to_text_length = true
+clear_button_enabled = true
+flat = true
+select_all_on_focus = true

@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtbj8holgmym6"]
+
+[ext_resource type="Script" path="res://addons/aigraph/Script/core/graph.gd" id="1_iqvr5"]
+[ext_resource type="PackedScene" uid="uid://bc4kxcb78soww" path="res://addons/aigraph/Scene/AI.tscn" id="2_qkwrm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jhrna"]
+
+[sub_resource type="Theme" id="Theme_lbwey"]
+Button/constants/align_to_largest_stylebox = 1
+CodeEdit/styles/normal = SubResource("StyleBoxEmpty_jhrna")
+GraphEdit/styles/panel = null
+GraphFrameTitleLabel/font_sizes/font_size = 2
+
+[node name="AI Graph" type="GraphEdit"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_lbwey")
+grid_pattern = 1
+snapping_distance = 50
+panning_scheme = 1
+connection_lines_curvature = 0.3
+connection_lines_thickness = 2.0
+zoom_max = 3.0
+show_zoom_buttons = false
+show_grid_buttons = false
+show_minimap_button = false
+show_arrange_button = false
+script = ExtResource("1_iqvr5")
+
+[node name="AI" parent="." instance=ExtResource("2_qkwrm")]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 104.0
+offset_right = 302.0
+offset_bottom = 204.0
+mouse_filter = 1
+position_offset = Vector2(102, 104)
+selected = true
+slot/0/right_color = Color(0.6, 0.317647, 0.847059, 1)

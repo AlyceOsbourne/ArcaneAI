@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://wswpreix4ffr"]
+
+[ext_resource type="Script" path="res://addons/aigraph/Script/graph_nodes/aggregate.gd" id="1_cl6ec"]
+
+[node name="Aggregate" type="GraphNode" node_paths=PackedStringArray("options_button")]
+custom_minimum_size = Vector2(200, 100)
+offset_right = 87.0
+offset_bottom = 75.0
+size_flags_horizontal = 0
+title = "Aggregate"
+slot/0/left_enabled = true
+slot/0/left_type = 1
+slot/0/left_color = Color(0.6, 0.317647, 0.847059, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 1
+slot/0/right_color = Color(0.6, 0.317647, 0.847059, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_cl6ec")
+options_button = NodePath("OptionButton")
+
+[node name="OptionButton" type="OptionButton" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+flat = true
+alignment = 1
+selected = 0
+item_count = 5
+popup/item_0/text = "PROD"
+popup/item_0/id = 0
+popup/item_1/text = "SUM"
+popup/item_1/id = 1
+popup/item_2/text = "AVG"
+popup/item_2/id = 2
+popup/item_3/text = "MIN"
+popup/item_3/id = 3
+popup/item_4/text = "MAX"
+popup/item_4/id = 4
