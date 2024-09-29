@@ -18,7 +18,7 @@ var selected_node: AIGraphNode:
         return null
 
 func _update(by):
-    if by == self:
+    if by == self or not visible:
         return
     var new = AI.build(GraphSerializer._save(self))
     GraphUtils.picker.edited_resource = new
@@ -223,7 +223,6 @@ func _calculate_depth(node: AIGraphNode, depth_map: Dictionary) -> int:
 
     depth_map[node] = depth
     return depth
-
 
 func _auto_arrange():
     var sorted_nodes = _topological_sort()

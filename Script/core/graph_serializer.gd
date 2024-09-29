@@ -42,7 +42,6 @@ static func _save(graph):
     return data
 
 static func _load(graph, ai: AI):
-
     var data = ai.data
     if not data.has("connections") or data.is_empty():
         for child in graph.get_children().filter(func(x): return x is AIGraphNode and x.allow_close):

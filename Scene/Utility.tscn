@@ -6,7 +6,7 @@
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="GDScriptSyntaxHighlighter" id="GDScriptSyntaxHighlighter_s7yam"]
+[sub_resource type="GDScriptSyntaxHighlighter" id="GDScriptSyntaxHighlighter_8ishr"]
 
 [node name="Utility" type="GraphNode" node_paths=PackedStringArray("code_edit")]
 custom_minimum_size = Vector2(200, 100)
@@ -31,7 +31,7 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "0"
 placeholder_text = "Utility Expression"
-syntax_highlighter = SubResource("GDScriptSyntaxHighlighter_s7yam")
+syntax_highlighter = SubResource("GDScriptSyntaxHighlighter_8ishr")
 symbol_lookup_on_click = true
 line_folding = true
 gutters_draw_line_numbers = true

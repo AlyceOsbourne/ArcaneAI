@@ -1,4 +1,3 @@
-@tool
 class_name AIComponent
 
 extends Node
@@ -6,7 +5,7 @@ extends Node
 @export var ai: AI
 @export var data: Resource
 
-signal evaluation(data: String)
+signal evaluation(data: Dictionary)
 
 func evaluate():
     evaluation.emit(ai.evaluate(data))

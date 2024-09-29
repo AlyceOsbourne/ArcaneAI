@@ -1,3 +1,4 @@
+@tool
 class_name Aggregate
 extends Evaluate
 var name: String

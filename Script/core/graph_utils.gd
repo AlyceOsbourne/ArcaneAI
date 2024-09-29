@@ -18,15 +18,14 @@ static func setup_picker(graph: AIGraph):
     b.clip_text = false
     var f = func(x: AI, flag=false):
             if not x:
+                inspector.ai = null
                 graph._clear_graph()
             else:
-                x = x.duplicate(true)
-                GraphSerializer._load(graph, x)
-                inspector.set_deferred("ai", x)
+                var _x = x.duplicate(true)
+                picker.edited_resource = _x
+                GraphSerializer._load(graph, _x)
+                inspector.set_deferred("ai", _x)
                 _inspect.call_deferred(graph)
-                b.text = x.resource_path if x.resource_path else "Unsaved"
-                b.size_flags_horizontal = graph.SIZE_EXPAND_FILL
-                b.clip_text = false
 
     picker.resource_changed.connect(f, CONNECT_DEFERRED)
     picker.resource_selected.connect(f, CONNECT_DEFERRED)
@@ -67,5 +66,6 @@ static func _inspect(graph):
             child.selected = false
     if not inspector.changed.is_connected(_update_activations.bind(graph)):
         inspector.changed.connect(_update_activations.bind(graph))
-    EditorInterface.inspect_object(inspector)
+    if graph.visible:
+        EditorInterface.inspect_object(inspector)
     _update_activations.call_deferred(graph)
