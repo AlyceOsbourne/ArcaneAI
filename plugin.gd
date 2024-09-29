@@ -11,7 +11,6 @@ var instance: AIGraph:
             _make_visible(false)
         return instance
 
-
 func _exit_tree():
     instance.queue_free()
 
@@ -25,13 +24,8 @@ func _make_visible(visible):
 func _get_plugin_name():
     return "AIGraph"
 
-
-
 func _handles(object: Object) -> bool:
     if object is AI:
         GraphUtils.picker.resource_changed.emit(object)
         return true
     return false
-
-func _ready() -> void:
-    print(EditorInterface.get_editor_theme().get_icon_list("EditorIcons"))
