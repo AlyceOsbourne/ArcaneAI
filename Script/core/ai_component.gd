@@ -8,7 +8,5 @@ extends Node
 signal evaluation(data: Dictionary)
 
 func evaluate():
-    evaluation.emit(ai.evaluate(data))
-
-func _ready() -> void:
-    evaluation.connect(func(x): print("%s: %s" % [name, x]))
+    if ai and data:
+        evaluation.emit(ai.evaluate(data))

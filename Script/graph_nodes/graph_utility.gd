@@ -4,7 +4,7 @@ extends AIGraphNode
 
 @export var code_edit: CodeEdit:
     set(v):
-        if Engine.is_editor_hint() and ClassDB.class_exists("GDScriptSyntaxHighlighter"):
+        if Engine.is_editor_hint() and ClassDB.class_exists("GDScriptSyntaxHighlighter") and ClassDB.can_instantiate("GDScriptSyntaxHighlighter"):
             var h = ClassDB.instantiate("GDScriptSyntaxHighlighter")
             v.syntax_highlighter = h
         code_edit = v

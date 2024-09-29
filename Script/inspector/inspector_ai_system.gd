@@ -29,10 +29,6 @@ var type: String:
     set(v):
         type = v
         test_object = null
-        for k in ProjectSettings.get_global_class_list():
-            if k["class"] == v:
-                test_object = load(k["path"]).new()
-                break
         notify_property_list_changed()
 
 var ai: AI:
