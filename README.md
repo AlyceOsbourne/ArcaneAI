@@ -7,7 +7,7 @@
   - **AI Resource Editor:** Double-click any AI resource in the file manager to open it in the editor for seamless editing and visualization.
 - **AI Resource:** Save your crafted AI as a reusable resource to integrate directly into your game.
 
-> **Note:**  
+> **Note:**
 This is a **Work in Progress** plugin and requires more testing before being production-ready.
 
 ### Installation
@@ -21,16 +21,16 @@ This is a **Work in Progress** plugin and requires more testing before being pro
 After enabling the plugin, you’ll see a new graph interface in the editor. This is where you’ll design and visualize your AI behaviors.
 
 #### Core Nodes:
-- **AI:**  
+- **AI:**
   The root node of your AI system. It handles decision-making and manages the overall AI logic.
-  
-- **Action:**  
+
+- **Action:**
   Represents the specific actions or states of your AI, like *Attack*, *Eat*, or *Wander*.
-  
-- **Utility:**  
+
+- **Utility:**
   Defines how your AI measures different factors. You can enter custom expressions in a small code box to create unique logic for each utility.
-  
-- **Aggregate:**  
+
+- **Aggregate:**
   Combines multiple utilities and calculates their values using different methods (sum, average, product). This allows you to create more nuanced decision-making by combining factors.
 
 Each node is interactive. Click on any node to see its configuration options, such as curves, in the Inspector.

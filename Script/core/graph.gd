@@ -17,6 +17,12 @@ var selected_node: AIGraphNode:
             return v[0]
         return null
 
+func _update(by):
+    if by == self:
+        return
+    var new = AI.build(GraphSerializer._save(self))
+    GraphUtils.picker.edited_resource = new
+
 func _ready() -> void:
     connection_request.connect(_handle_connect_node)
     disconnection_request.connect(_handle_disconnect_node)
@@ -39,6 +45,7 @@ func _ready() -> void:
 
     var clear = _create_action_button("Clear", _clear_graph)
     menu.add_child(clear)
+    menu.add_child(_create_action_button("Rearrange", _auto_arrange))
     menu.add_spacer(false)
 
     trigger_update.connect(
@@ -73,7 +80,7 @@ func _add_node(node_type, place_func):
 
     var s = selected_node
     if not s:
-        set_selected(get_node("AI"))
+        set_selected(get_node(NodePath("AI")))
         s = selected_node
 
     var s_title = s.title
@@ -162,7 +169,7 @@ func _place_below_all(node):
     var actions = get_children().filter(func(x): return x is GraphAction)
 
     if actions.is_empty() or actions.size() == 1:
-        set_selected(get_node("AI"))
+        set_selected(get_node(NodePath("AI")))
         _place_adjacent(node)
         return
 
@@ -173,9 +180,155 @@ func _place_below_all(node):
 
     node.position_offset = lowest + Vector2(0, 200)
 
+func _topological_sort() -> Array:
+    var node_order = []
+    var node_stack = []
+    var in_degree = {}
 
-func _update(by):
-    if by == self:
+    for node in graph_nodes:
+        in_degree[node] = 0
+
+    for connection in get_connection_list():
+        var target_node = get_node(NodePath(connection.to_node))
+        if target_node in in_degree:
+            in_degree[target_node] += 1
+
+    for node in in_degree:
+        if in_degree[node] == 0:
+            node_stack.append(node)
+
+    while not node_stack.is_empty():
+        var current_node = node_stack.pop_back()
+        node_order.append(current_node)
+
+        for connection in get_connection_list():
+            if connection.from_node == current_node.name:
+                var target_node = get_node(NodePath(connection.to_node))
+                if target_node in in_degree:
+                    in_degree[target_node] -= 1
+                    if in_degree[target_node] == 0:
+                        node_stack.append(target_node)
+
+    return node_order
+
+func _calculate_depth(node: AIGraphNode, depth_map: Dictionary) -> int:
+    if node in depth_map:
+        return depth_map[node]
+
+    var depth = 0
+    for connection in get_connection_list():
+        if connection.to_node == node.name:
+            var parent_node = get_node(NodePath(connection.from_node))
+            depth = max(depth, _calculate_depth(parent_node, depth_map) + 1)
+
+    depth_map[node] = depth
+    return depth
+
+
+func _auto_arrange():
+    var sorted_nodes = _topological_sort()
+    if sorted_nodes.is_empty():
         return
-    var new = AI.build(GraphSerializer._save(self))
-    GraphUtils.picker.edited_resource = new
+
+    var depth_map = {}
+    var max_depth = 0
+
+    for node in sorted_nodes:
+        var depth = _calculate_depth(node, depth_map)
+        if depth > max_depth:
+            max_depth = depth
+
+    var horizontal_spacing = 300
+    var vertical_spacing = 100
+
+    var total_height = 0
+    var placed_nodes = {}
+    var node_children = {}
+
+    for connection in get_connection_list():
+        var from_node = get_node(NodePath(connection.from_node))
+        var to_node = get_node(NodePath(connection.to_node))
+        if from_node in node_children:
+            node_children[from_node].append(to_node)
+        else:
+            node_children[from_node] = [to_node]
+
+
+    for node in sorted_nodes:
+        if node in placed_nodes:
+            continue
+
+        var has_parent = false
+        for connection in get_connection_list():
+            if connection.to_node == node.name:
+                has_parent = true
+                break
+
+        if not has_parent:
+            var current_x = horizontal_spacing * depth_map[node]
+            var current_y = total_height
+
+            node.position_offset = Vector2(current_x, current_y)
+            placed_nodes[node] = true
+
+            var subtree_height = _arrange_subtree(node, depth_map, node_children, placed_nodes, horizontal_spacing, vertical_spacing)
+
+            total_height += subtree_height + vertical_spacing
+
+
+
+    sorted_nodes[0].position_offset = Vector2(-horizontal_spacing * 2, total_height / 2)
+
+    trigger_update.emit(self)
+
+func _arrange_subtree(node, depth_map, node_children, placed_nodes, horizontal_spacing, vertical_spacing):
+    var node_height = node.size.y
+    var depth = depth_map[node]
+    var current_x = horizontal_spacing * depth
+    var current_y = node.position_offset.y
+    var max_height = node_height
+
+    if node in node_children:
+        var child_y = current_y
+        var is_first_child = true
+
+        var nc = node_children[node]
+
+        nc.sort_custom(
+            func(x, y):
+                var deg_x = calc_deg(x, node_children)
+                var deg_y = calc_deg(y, node_children)
+                return deg_x < deg_y
+
+        )
+
+        for child in node_children[node]:
+            if child in placed_nodes:
+                continue
+
+            var child_depth = depth_map[child]
+            var child_x = horizontal_spacing * child_depth
+
+            if is_first_child:
+                child_y = current_y
+                is_first_child = false
+            else:
+                child_y += node_height + vertical_spacing
+
+            child.position_offset = Vector2(child_x, child_y)
+            placed_nodes[child] = true
+
+            var subtree_height = _arrange_subtree(child, depth_map, node_children, placed_nodes, horizontal_spacing, vertical_spacing)
+
+            child_y += subtree_height - node_height
+
+            var child_total_height = (child_y - current_y) + node_height
+            if child_total_height > max_height:
+                max_height = child_total_height
+
+    return max_height
+
+func calc_deg(n, nc):
+    if not nc.has(n):
+        return 0
+    return 1 + nc[n].map(calc_deg.bind(nc)).reduce(func(x, y): return x + y)

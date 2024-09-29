@@ -8,9 +8,6 @@ var parent: AIGraph:
     get:
         return (get_parent() as AIGraph)
 
-var slot:
-    get: return get_child(0)
-
 func _enter_tree():
     var root = get_tree().root
     var update_theme = func(__=null):

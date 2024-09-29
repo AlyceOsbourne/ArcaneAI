@@ -17,12 +17,17 @@ static func setup_picker(graph: AIGraph):
     b.size_flags_horizontal = graph.SIZE_EXPAND_FILL
     b.clip_text = false
     var f = func(x: AI, flag=false):
-            GraphSerializer._load(graph, x)
-            inspector.set_deferred("ai", x)
-            _inspect.call_deferred(graph)
-            b.text = x.resource_path if x.resource_path else "Unsaved"
-            b.size_flags_horizontal = graph.SIZE_EXPAND_FILL
-            b.clip_text = false
+            if not x:
+                graph._clear_graph()
+            else:
+                x = x.duplicate(true)
+                GraphSerializer._load(graph, x)
+                inspector.set_deferred("ai", x)
+                _inspect.call_deferred(graph)
+                b.text = x.resource_path if x.resource_path else "Unsaved"
+                b.size_flags_horizontal = graph.SIZE_EXPAND_FILL
+                b.clip_text = false
+
     picker.resource_changed.connect(f, CONNECT_DEFERRED)
     picker.resource_selected.connect(f, CONNECT_DEFERRED)
     if picker.get_parent() != null:
